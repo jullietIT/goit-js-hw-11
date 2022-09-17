@@ -24,18 +24,23 @@ btnSearch.addEventListener('click', e => {
   if (trimmedValue !== '') {
 
     fetchImages(trimmedValue, pageNumber ).then(foundData => {
-  
+ 
       if (foundData.hits.length === 0) {
-        pageNumber >= 1;
+ 
         Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
+
       } else {
         renderImageList(foundData.hits);
+      
         Notiflix.Notify.success(
           `Hooray! We found ${foundData.totalHits} images.`
+
         );
-        btnLoadMore.style.display = 'block';
+        
+        
+        btnLoadMore.style.display = 'block'; 
         gallerySimpleLightbox.refresh();
    
         
