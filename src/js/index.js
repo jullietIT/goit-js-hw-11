@@ -14,7 +14,9 @@ let gallerySimpleLightbox = new SimpleLightbox('.gallery a');
 
 btnLoadMore.style.display = 'none';
 
+
 let pageNumber = 1;
+let pageList = 40;
 
 btnSearch.addEventListener('click', e => {
   e.preventDefault();
@@ -23,27 +25,32 @@ btnSearch.addEventListener('click', e => {
 
   if (trimmedValue !== '') {
 
-    fetchImages(trimmedValue, pageNumber ).then(foundData => {
+    fetchImages(trimmedValue, pageNumber).then(foundData => {
+        // newPage =newsApiServis.page;
+        let totalPages = Math.ceil (foundData.totalHits / pageList) ;
+            console.log(totalPages);
+                          //   {спрятать кнопку и +сообщение}
  
-      if (foundData.hits.length === 0) {
- 
+      if (foundData.hits.length <= 0) {   
+       btnLoadMore.style.display = 'none';
+   
         Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
 
-      } else {
-        renderImageList(foundData.hits);
-      
+      }
+    
+      else {
+        renderImageList(foundData.hits);    
         Notiflix.Notify.success(
           `Hooray! We found ${foundData.totalHits} images.`
-
         );
-        
-        
-        btnLoadMore.style.display = 'block'; 
-        gallerySimpleLightbox.refresh();
-   
-        
+    
+        if (foundData.totalHits > 40) {
+          btnLoadMore.style.display = 'block';
+        }
+          gallerySimpleLightbox.refresh();
+         
       }
     });
   }
@@ -58,11 +65,17 @@ btnLoadMore.addEventListener('click', () => {
       Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
-    } else {
+    }
+    // else {
+    //   foundData.hits.length >= 1;
+    //   btnLoadMore.style.display = 'none';
+    // }
+    else {
       renderImageList(foundData.hits);
      
       btnLoadMore.style.display = 'block';
     }
+    
   });
 });
 
