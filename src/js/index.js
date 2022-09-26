@@ -39,14 +39,12 @@ btnSearch.addEventListener('click', e => {
         );
 
       }
-    
-      else {
+     else {
         renderImageList(foundData.hits);    
         Notiflix.Notify.success(
           `Hooray! We found ${foundData.totalHits} images.`
         );
-    
-        if (foundData.totalHits > 40) {
+           if (foundData.totalHits > 40) {
           btnLoadMore.style.display = 'block';
         }
           gallerySimpleLightbox.refresh();
